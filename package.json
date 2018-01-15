@@ -1,0 +1,20 @@
+{
+  "name": "react-tv-navigation",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/react-tv/react-tv-navigation.git"
+  },
+  "keywords": [],
+  "author": "Raphael Amorim <rapha850@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/react-tv/react-tv-navigation/issues"
+  },
+  "homepage": "https://github.com/react-tv/react-tv-navigation#readme"
+}
