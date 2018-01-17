@@ -1,14 +1,14 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
-import compose from 'recompose/compose'
-import mapProps from 'recompose/mapProps'
-import lifecycle from 'recompose/lifecycle'
-import getContext from 'recompose/getContext'
+import compose from 'recompose/compose';
+import mapProps from 'recompose/mapProps';
+import lifecycle from 'recompose/lifecycle';
+import getContext from 'recompose/getContext';
 
-import SpatialNavigation from './spatial-navigation'
+import SpatialNavigation from './spatial-navigation';
 
 const withFocusable = ({
-  focusPath = ''
+  focusPath = '',
 } = {}) => compose(
   getContext({
     setFocus: PropTypes.func,
@@ -22,12 +22,12 @@ const withFocusable = ({
   })),
   lifecycle({
     componentDidMount() {
-      SpatialNavigation.addFocusable(focusPath)
+      SpatialNavigation.addFocusable(focusPath);
     },
     componentWillUnmount() {
-      SpatialNavigation.removeFocusable(focusPath)
+      SpatialNavigation.removeFocusable(focusPath);
     },
   }),
-)
+);
 
-export default withFocusable
+export default withFocusable;

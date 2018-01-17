@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
-import compose from 'recompose/compose'
-import lifecycle from 'recompose/lifecycle'
-import withContext from 'recompose/withContext'
-import withStateHandlers from 'recompose/withStateHandlers'
+import compose from 'recompose/compose';
+import lifecycle from 'recompose/lifecycle';
+import withContext from 'recompose/withContext';
+import withStateHandlers from 'recompose/withStateHandlers';
 
-import SpatialNavigation from './spatial-navigation'
+import SpatialNavigation from './spatial-navigation';
 
 const withNavigation = compose(
   withStateHandlers(
@@ -14,10 +14,10 @@ const withNavigation = compose(
     },
     {
       setFocus: ({ currentFocusPath }) => (focusPath, overwriteFocusPath) => {
-        const newFocusPath = overwriteFocusPath || focusPath
+        const newFocusPath = overwriteFocusPath || focusPath;
         if (currentFocusPath !== newFocusPath) {
-          SpatialNavigation.setCurrentFocusedPath(newFocusPath)
-          return { currentFocusPath: newFocusPath }
+          SpatialNavigation.setCurrentFocusedPath(newFocusPath);
+          return { currentFocusPath: newFocusPath };
         }
       },
     }
@@ -28,15 +28,15 @@ const withNavigation = compose(
   ),
   lifecycle({
     componentDidMount() {
-      SpatialNavigation.init(this.props.setFocus)
+      SpatialNavigation.init(this.props.setFocus);
     },
     componentDidUpdate() {
-      SpatialNavigation.init(this.props.setFocus)
+      SpatialNavigation.init(this.props.setFocus);
     },
     componentWillUnmount() {
-      SpatialNavigation.destroy()
-    }
+      SpatialNavigation.destroy();
+    },
   }),
-)
+);
 
-export default withNavigation
+export default withNavigation;

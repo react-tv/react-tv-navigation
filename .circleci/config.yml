@@ -26,11 +26,15 @@ jobs:
           name: Install dependencies
           command: yarn install
 
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Run lint
+          command: yarn lint
 
       - run:
           name: Run tests
           command: yarn test
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}

@@ -1,37 +1,40 @@
-import SpatialNavigation from '../src/spatial-navigation'
+import SpatialNavigation from '../src/spatial-navigation';
 
 describe('SpatialNavigation', () => {
-  let spatialNavigation
-  let setStateSpy
-
   describe('initialize', () => {
+    let setStateSpy;
+
     beforeEach(() => {
-      setStateSpy = jest.fn()
-      SpatialNavigation.init(setStateSpy)
-    })
+      setStateSpy = jest.fn();
+      SpatialNavigation.init(setStateSpy);
+    });
 
     it('listens to sn:focused event', () => {
-      const event = new CustomEvent('sn:focused', { detail: { sectionId: 'focusPath' } })
-      document.dispatchEvent(event)
+      const event = new CustomEvent('sn:focused', {
+        detail: { sectionId: 'focusPath' },
+      });
+      document.dispatchEvent(event);
 
-      expect(setStateSpy).toHaveBeenCalled()
-    })
+      expect(setStateSpy).toHaveBeenCalled();
+    });
 
     describe('when focusing the same focused element', () => {
       beforeEach(() => {
-        SpatialNavigation.focused = 'focusPath'
-      })
+        SpatialNavigation.focused = 'focusPath';
+      });
 
       it('does nothing', () => {
-        const event = new CustomEvent('sn:focused', { detail: { sectionId: 'focusPath' } })
-        document.dispatchEvent(event)
+        const event = new CustomEvent('sn:focused', {
+          detail: { sectionId: 'focusPath' },
+        });
+        document.dispatchEvent(event);
 
-        expect(setStateSpy).not.toHaveBeenCalled()
-      })
-    })
-  })
+        expect(setStateSpy).not.toHaveBeenCalled();
+      });
+    });
+  });
 
   describe('destroy', () => {
 
-  })
-})
+  });
+});

@@ -1,55 +1,55 @@
-import Navigation from '../vendor/navigation'
+import Navigation from '../vendor/navigation';
 
 class SpatialNavigation {
   constructor() {
-    this.focusedPath = null
-    this.setState = null
+    this.focusedPath = null;
+    this.setState = null;
 
-    this.handleFocused = this.handleFocused.bind(this)
-    document.addEventListener('sn:focused', this.handleFocused)
+    this.handleFocused = this.handleFocused.bind(this);
+    document.addEventListener('sn:focused', this.handleFocused);
   }
 
   init(updateState) {
     if (!this.setState) {
-      this.setState = updateState
+      this.setState = updateState;
     }
 
-    Navigation.init()
-    Navigation.focus()
+    Navigation.init();
+    Navigation.focus();
   }
 
   destroy() {
-    this.setState = null
-    Navigation.uninit()
-    document.removeEventListener('sn:focused', this.handleFocused)
+    this.setState = null;
+    Navigation.uninit();
+    document.removeEventListener('sn:focused', this.handleFocused);
   }
 
   handleFocused(ev) {
     if (this.focusedPath !== ev.detail.sectionId) {
-      this.setState(ev.detail.sectionId)
-      Navigation.focus(ev.detail.sectionId)
+      this.setState(ev.detail.sectionId);
+      Navigation.focus(ev.detail.sectionId);
     }
   }
 
   getCurrentFocusedPath() {
-    return this.focusedPath
+    return this.focusedPath;
   }
 
   setCurrentFocusedPath(focusPath) {
-    this.focusedPath = focusPath
-    Navigation.focus(focusPath)
+    this.focusedPath = focusPath;
+    Navigation.focus(focusPath);
   }
 
   addFocusable(focusPath) {
-    this.removeFocusable(focusPath)
+    this.removeFocusable(focusPath);
 
-    Navigation.add(focusPath, { selector: `#${focusPath}` })
-    Navigation.makeFocusable(focusPath)
+    Navigation.add(focusPath, { selector: `#${focusPath}` });
+    Navigation.makeFocusable(focusPath);
   }
 
   removeFocusable(focusPath) {
-    Navigation.remove(focusPath)
+    Navigation.remove(focusPath);
   }
 }
 
-export default new SpatialNavigation()
+export default new SpatialNavigation();
