@@ -40,15 +40,23 @@ class SpatialNavigation {
     Navigation.focus(focusPath);
   }
 
-  addFocusable(focusPath) {
-    this.removeFocusable(focusPath);
+  addFocusable(element, focusPath) {
+    this.removeFocusable(element);
 
-    Navigation.add(focusPath, { selector: `#${focusPath}` });
+    const params = [{ selector: element }];
+    if (focusPath) {
+      params.unshift(focusPath);
+    }
+
+    Navigation.add(...params);
     Navigation.makeFocusable(focusPath);
   }
 
-  removeFocusable(focusPath) {
-    Navigation.remove(focusPath);
+  removeFocusable(element) {
+    const sectionId = Navigation.getSectionId(element);
+    if (sectionId) {
+      Navigation.remove(sectionId);
+    }
   }
 }
 

@@ -1,3 +1,4 @@
+import ReactTV from 'react-tv';
 import PropTypes from 'prop-types';
 
 import compose from 'recompose/compose';
@@ -22,10 +23,12 @@ const withFocusable = ({
   })),
   lifecycle({
     componentDidMount() {
-      SpatialNavigation.addFocusable(focusPath);
+      const element = ReactTV.findDOMNode(this);
+      SpatialNavigation.addFocusable(element, focusPath);
     },
     componentWillUnmount() {
-      SpatialNavigation.removeFocusable(focusPath);
+      const element = ReactTV.findDOMNode(this);
+      SpatialNavigation.removeFocusable(element, focusPath);
     },
   }),
 );
