@@ -57,5 +57,8 @@
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-flow": "^1.1.1",
     "rollup-plugin-node-resolve": "^3.0.2"
+  },
+  "peerDependencies": {
+    "react-tv": "^0.3.2"
   }
 }
