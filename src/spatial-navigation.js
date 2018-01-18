@@ -1,4 +1,4 @@
-import Navigation from '../vendor/navigation';
+import Navigation from './navigation';
 
 class SpatialNavigation {
   constructor() {
