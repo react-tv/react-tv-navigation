@@ -40,10 +40,10 @@ class SpatialNavigation {
     Navigation.focus(focusPath);
   }
 
-  addFocusable(focusPath) {
+  addFocusable(focusPath, focusDOMElement) {
     this.removeFocusable(focusPath);
 
-    Navigation.add(focusPath, { selector: `#${focusPath}` });
+    Navigation.add(focusPath, {selector: focusDOMElement});
     Navigation.makeFocusable(focusPath);
   }
 
