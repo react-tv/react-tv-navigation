@@ -10,6 +10,10 @@ export default {
     name: 'ReactTVNavigation',
     file: 'dist/bundle.umd.js',
     format: 'umd',
+    globals: {
+      react: 'React',
+      'react-tv': 'react-tv',
+    }
   },
   plugins: [
     flow(),
@@ -25,5 +29,5 @@ export default {
     }),
     uglify(),
   ],
-  external: ['react', 'react-tv'],
+  external: ['react', 'react-tv']
 };
