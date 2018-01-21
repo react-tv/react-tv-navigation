@@ -10,7 +10,15 @@ tl;dr: [Based on Netflix TV Navigation System](https://medium.com/netflix-techbl
 
 [See code from this example](https://github.com/react-tv/react-tv/blob/master/examples/navigation/src/App.js)
 
-React-TV-Navigation is a separated package from renderer to manage focusable components. React and [React-TV](http://github.com/react-tv/react-tv) are peer-dependencies.
+React-TV-Navigation is a separated package from renderer to manage focusable components.
+
+## Installing
+
+```bash
+yarn add react-tv-navigation
+```
+
+React and [React-TV](http://github.com/react-tv/react-tv) are peer-dependencies.
 
 ## `withFocusable` and `withNavigation`
 
