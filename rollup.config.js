@@ -13,7 +13,7 @@ export default {
     globals: {
       react: 'React',
       'react-tv': 'react-tv',
-    }
+    },
   },
   plugins: [
     flow(),
@@ -29,5 +29,5 @@ export default {
     }),
     uglify(),
   ],
-  external: ['react', 'react-tv']
+  external: ['react', 'react-tv'],
 };

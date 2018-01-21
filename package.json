@@ -8,6 +8,7 @@
     "README.md"
   ],
   "scripts": {
+    "prepublishOnly": "yarn lint && yarn test && yarn build",
     "build": "rollup -c",
     "lint": "eslint ./",
     "test": "jest"
