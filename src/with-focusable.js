@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import ReactTV from 'react-tv';
 
 import compose from 'recompose/compose';
 import mapProps from 'recompose/mapProps';
@@ -22,7 +23,7 @@ const withFocusable = ({
   })),
   lifecycle({
     componentDidMount() {
-      SpatialNavigation.addFocusable(focusPath);
+      SpatialNavigation.addFocusable(focusPath, ReactTV.findDOMNode(this));
     },
     componentWillUnmount() {
       SpatialNavigation.removeFocusable(focusPath);
