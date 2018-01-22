@@ -23,10 +23,10 @@ const withFocusable = ({
   })),
   lifecycle({
     componentDidMount() {
-      SpatialNavigation.addFocusable(focusPath, ReactTV.findDOMNode(this));
+      SpatialNavigation.addFocusable(ReactTV.findDOMNode(this), focusPath);
     },
     componentWillUnmount() {
-      SpatialNavigation.removeFocusable(focusPath);
+      SpatialNavigation.removeFocusable(ReactTV.findDOMNode(this));
     },
   }),
 );

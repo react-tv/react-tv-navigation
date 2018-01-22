@@ -1183,7 +1183,9 @@ var GlobalConfig = {
       } else {
         _defaultSectionId = sectionId;
       }
-    }
+    },
+
+    getSectionId: getSectionId
   };
 
 export default SpatialNavigation
