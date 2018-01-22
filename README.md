@@ -28,7 +28,7 @@ A declarative navigation system based on HOC's for focus and navigation control.
 
 ```jsx
 import React from 'react'
-import ReactTV, { renderOnAppLoaded } from 'react-tv'
+import ReactTV from 'react-tv'
 import { withFocusable, withNavigation } from 'react-tv-navigation'
 
 const Item = ({focused, setFocus, focusPath}) => {
