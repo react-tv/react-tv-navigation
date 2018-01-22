@@ -14,9 +14,9 @@ describe('withFocusable', () => {
     currentFocusPath,
     setFocus = jest.fn(),
   }) => {
-    const EnhancedComponent = withFocusable({ focusPath })(Component);
+    const EnhancedComponent = withFocusable(Component);
     return mount(
-      <EnhancedComponent />,
+      <EnhancedComponent focusPath={focusPath} />,
       { context: { currentFocusPath, setFocus } }
     );
   };
