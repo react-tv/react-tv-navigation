@@ -2,11 +2,10 @@ import Navigation from './navigation';
 
 class SpatialNavigation {
   constructor() {
-    this.focusedPath = null;
-    this.setState = null;
-
     this.handleFocused = this.handleFocused.bind(this);
-    document.addEventListener('sn:focused', this.handleFocused);
+
+    this.destroy();
+    this.bindFocusEvent();
   }
 
   init(updateState) {
@@ -16,12 +15,27 @@ class SpatialNavigation {
 
     Navigation.init();
     Navigation.focus();
+    this.bindFocusEvent();
   }
 
   destroy() {
+    this.focusedPath = null;
     this.setState = null;
+
     Navigation.uninit();
+    this.unbindFocusEvent();
+  }
+
+  bindFocusEvent() {
+    if (!this.listening) {
+      this.listening = true;
+      document.addEventListener('sn:focused', this.handleFocused);
+    }
+  }
+
+  unbindFocusEvent() {
     document.removeEventListener('sn:focused', this.handleFocused);
+    this.listening = false;
   }
 
   handleFocused(ev) {
@@ -40,15 +54,23 @@ class SpatialNavigation {
     Navigation.focus(focusPath);
   }
 
-  addFocusable(focusPath, focusDOMElement) {
-    this.removeFocusable(focusPath);
+  addFocusable(focusDOMElement, focusPath) {
+    this.removeFocusable(focusDOMElement);
 
-    Navigation.add(focusPath, {selector: focusDOMElement});
-    Navigation.makeFocusable(focusPath);
+    const params = [{ selector: focusDOMElement }];
+    if (focusPath) {
+      params.unshift(focusPath);
+    }
+
+    Navigation.add(...params);
+    Navigation.makeFocusable(Navigation.getSectionId(focusDOMElement));
   }
 
-  removeFocusable(focusPath) {
-    Navigation.remove(focusPath);
+  removeFocusable(focusDOMElement) {
+    const sectionId = Navigation.getSectionId(focusDOMElement);
+    if (sectionId) {
+      Navigation.remove(sectionId);
+    }
   }
 }
 
