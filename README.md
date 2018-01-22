@@ -10,7 +10,7 @@ tl;dr: [Based on Netflix TV Navigation System](https://medium.com/netflix-techbl
 
 [See code from this example](https://github.com/react-tv/react-tv/blob/master/examples/navigation/src/App.js)
 
-React-TV-Navigation is a separated package from renderer to manage focusable components.
+React-TV-Navigation is a separated package from React-TV renderer to manage focusable components.
 
 ## Installing
 
@@ -24,7 +24,7 @@ React and [React-TV](http://github.com/react-tv/react-tv) are peer-dependencies.
 
 React-TV Navigation exports two functions: `withFocusable` and `withNavigation`.
 
-Navigation based on HOC and HOF beeing declarative.
+A declarative navigation system based on HOC's for focus and navigation control.
 
 ```jsx
 import React from 'react'
@@ -40,28 +40,31 @@ const Item = ({focused, setFocus, focusPath}) => {
   )
 }
 
-const Button = ({focused, setFocus, focusPath}) => {
+const Button = ({setFocus}) => {
   return (
-    <div onClick={() => { setFocus('focusPath-1') }}>
+    <div onClick={() => { setFocus('item-1') }}>
       Back To First Item!
     </div>
   )
 }
 
-const FocusableItem = withFocusable({focusPath: 'item-1'})(Item)
-const FocusableOtherItem = withFocusable({focusPath: 'item-2'})(Item)
-const FocusableButton = withFocusable({focusPath: 'button'})(Button)
+const FocusableItem = withFocusable(Item)
+const FocusableButton = withFocusable(Button)
 
 function App({currentFocusPath}) {
   return (
     <div>
       <h1>Current FocusPath: '{currentFocusPath}'</h1>,
-      <FocusableItem/>
-      <FocusableOtherItem/>
-      <FocusableButton/>
+      <FocusableItem focusPath='item-1'/>
+      <FocusableItem focusPath='item-2'/>
+      <FocusableButton focusPath: 'button'/>
     </div>
   )
 }
+
+const NavigableApp = withNavigation(App)
+
+ReactTV.render(<NavigableApp/>, document.querySelector('#app'))
 ```
 
 Soon we'll write a decent README.md :)
