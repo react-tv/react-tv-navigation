@@ -99,15 +99,18 @@ describe('withFocusable', () => {
 
     beforeEach(() => {
       onEnterPress = jest.fn();
-      spyOn(SpatialNavigation, 'addFocusable');
-      spyOn(SpatialNavigation, 'removeFocusable');
+      spyOn(SpatialNavigation, 'addFocusable').and.callThrough();
+      spyOn(SpatialNavigation, 'removeFocusable').and.callThrough();
     });
 
     describe('when mounting component', () => {
       it('adds to focusable management', () => {
         component = renderComponent({ focusPath: 'focusPath' });
         expect(SpatialNavigation.addFocusable)
-          .toHaveBeenCalledWith(element, 'focusPath');
+          .toHaveBeenCalledWith(
+            element,
+            expect.objectContaining({ focusPath: 'focusPath' })
+          );
       });
 
       it('listens enter press event', () => {
@@ -125,7 +128,7 @@ describe('withFocusable', () => {
 
         component.unmount();
         expect(SpatialNavigation.removeFocusable)
-          .toHaveBeenCalledWith(element);
+          .toHaveBeenCalledWith(element, expect.anything());
       });
 
       it('stops listening to enter press event', () => {
