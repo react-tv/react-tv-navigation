@@ -57,7 +57,7 @@ function App({currentFocusPath}) {
       <h1>Current FocusPath: '{currentFocusPath}'</h1>,
       <FocusableItem focusPath='item-1'/>
       <FocusableItem focusPath='item-2'/>
-      <FocusableButton focusPath: 'button'/>
+      <FocusableButton focusPath='button'/>
     </div>
   )
 }
