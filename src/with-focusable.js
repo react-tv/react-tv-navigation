@@ -6,6 +6,7 @@ import mapProps from 'recompose/mapProps';
 import lifecycle from 'recompose/lifecycle';
 import getContext from 'recompose/getContext';
 import setPropTypes from 'recompose/setPropTypes';
+import withHandlers from 'recompose/withHandlers';
 
 import SpatialNavigation from './spatial-navigation';
 
@@ -21,15 +22,16 @@ const withFocusable = compose(
     currentFocusPath,
     focusPath,
     setFocus = () => {},
-    onEnterPress = () => {},
     ...props
   }) => ({
     focused: currentFocusPath === focusPath,
     setFocus: setFocus.bind(null, focusPath),
-    onEnterPress,
     focusPath,
     ...props,
   })),
+  withHandlers({
+    onEnterPressHandler: ({ onEnterPress = () => {} }) => onEnterPress,
+  }),
   lifecycle({
     componentDidMount() {
       const element = ReactTV.findDOMNode(this);
