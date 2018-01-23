@@ -54,23 +54,31 @@ class SpatialNavigation {
     Navigation.focus(focusPath);
   }
 
-  addFocusable(focusDOMElement, focusPath) {
-    this.removeFocusable(focusDOMElement);
+  addFocusable(focusDOMElement, { focusPath, onEnterPressHandler }) {
+    if (!focusDOMElement || Navigation.getSectionId(focusDOMElement)) {
+      return;
+    }
+
+    this.removeFocusable(focusDOMElement, { onEnterPressHandler });
 
     const params = [{ selector: focusDOMElement }];
     if (focusPath) {
       params.unshift(focusPath);
     }
 
-    Navigation.add(...params);
-    Navigation.makeFocusable(Navigation.getSectionId(focusDOMElement));
+    focusDOMElement.addEventListener('sn:enter-down', onEnterPressHandler);
+    const sectionId = Navigation.add(...params);
+    Navigation.makeFocusable(sectionId);
   }
 
-  removeFocusable(focusDOMElement) {
+  removeFocusable(focusDOMElement, { onEnterPressHandler }) {
     const sectionId = Navigation.getSectionId(focusDOMElement);
-    if (sectionId) {
-      Navigation.remove(sectionId);
+    if (!sectionId) {
+      return;
     }
+
+    Navigation.remove(sectionId);
+    focusDOMElement.removeEventListener('sn:enter-down', onEnterPressHandler);
   }
 }
 

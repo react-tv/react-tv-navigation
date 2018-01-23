@@ -33,17 +33,24 @@ const withFocusable = compose(
     onEnterPressHandler: ({ onEnterPress = () => {} }) => onEnterPress,
   }),
   lifecycle({
+    addFocusable() {
+      const { focusPath, onEnterPressHandler } = this.props;
+      SpatialNavigation.addFocusable(
+        ReactTV.findDOMNode(this),
+        { focusPath, onEnterPressHandler }
+      );
+    },
     componentDidMount() {
-      const element = ReactTV.findDOMNode(this);
-
-      element.addEventListener('sn:enter-down', this.props.onEnterPress);
-      SpatialNavigation.addFocusable(element, this.props.focusPath);
+      this.addFocusable();
+    },
+    componentDidUpdate() {
+      this.addFocusable();
     },
     componentWillUnmount() {
-      const element = ReactTV.findDOMNode(this);
-
-      element.removeEventListener('sn:enter-down', this.props.onEnterPress);
-      SpatialNavigation.removeFocusable(element);
+      SpatialNavigation.removeFocusable(
+        ReactTV.findDOMNode(this),
+        { onEnterPressHandler: this.props.onEnterPressHandler }
+      );
     },
   }),
 );
