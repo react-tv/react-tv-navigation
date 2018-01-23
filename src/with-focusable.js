@@ -17,21 +17,31 @@ const withFocusable = compose(
     setFocus: PropTypes.func,
     currentFocusPath: PropTypes.string,
   }),
-  mapProps(({ currentFocusPath, setFocus, focusPath, ...props }) => ({
+  mapProps(({
+    currentFocusPath,
+    focusPath,
+    setFocus = () => {},
+    onEnterPress = () => {},
+    ...props
+  }) => ({
     focused: currentFocusPath === focusPath,
     setFocus: setFocus.bind(null, focusPath),
+    onEnterPress,
     focusPath,
     ...props,
   })),
   lifecycle({
     componentDidMount() {
-      SpatialNavigation.addFocusable(
-        ReactTV.findDOMNode(this),
-        this.props.focusPath
-      );
+      const element = ReactTV.findDOMNode(this);
+
+      element.addEventListener('sn:enter-down', this.props.onEnterPress);
+      SpatialNavigation.addFocusable(element, this.props.focusPath);
     },
     componentWillUnmount() {
-      SpatialNavigation.removeFocusable(ReactTV.findDOMNode(this));
+      const element = ReactTV.findDOMNode(this);
+
+      element.removeEventListener('sn:enter-down', this.props.onEnterPress);
+      SpatialNavigation.removeFocusable(element);
     },
   }),
 );

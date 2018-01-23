@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTV from 'react-tv';
 
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -10,18 +11,24 @@ import withFocusable from '../src/with-focusable';
 describe('withFocusable', () => {
   const Component = () => <div />;
   const renderComponent = ({
-    focusPath,
     currentFocusPath,
     setFocus = jest.fn(),
+    ...props
   }) => {
     const EnhancedComponent = withFocusable(Component);
     return mount(
-      <EnhancedComponent focusPath={focusPath} />,
+      <EnhancedComponent {...props} />,
       { context: { currentFocusPath, setFocus } }
     );
   };
 
+  let element;
   let component;
+
+  beforeEach(() => {
+    element = document.createElement('div');
+    spyOn(ReactTV, 'findDOMNode').and.returnValue(element);
+  });
 
   afterEach(() => {
     if (component) {
@@ -88,23 +95,47 @@ describe('withFocusable', () => {
   });
 
   describe('lifecycle', () => {
+    let onEnterPress;
+
     beforeEach(() => {
+      onEnterPress = jest.fn();
       spyOn(SpatialNavigation, 'addFocusable');
       spyOn(SpatialNavigation, 'removeFocusable');
     });
 
-    it('adds focusable after component mounts', () => {
-      component = renderComponent({ focusPath: 'focusPath' });
-      // TODO: back toHaveBeenCalledWith, testing DOM Element
-      expect(SpatialNavigation.addFocusable).toHaveBeenCalled();
+    describe('when mounting component', () => {
+      it('adds to focusable management', () => {
+        component = renderComponent({ focusPath: 'focusPath' });
+        expect(SpatialNavigation.addFocusable)
+          .toHaveBeenCalledWith(element, 'focusPath');
+      });
+
+      it('listens enter press event', () => {
+        component = renderComponent({ focusPath: 'focusPath', onEnterPress });
+
+        const event = new CustomEvent('sn:enter-down');
+        element.dispatchEvent(event);
+        expect(onEnterPress).toHaveBeenCalled();
+      });
     });
 
-    it('removes focusable after component unmounts', () => {
-      component = renderComponent({ focusPath: 'focusPath' });
+    describe('when unmounting component', () => {
+      it('removes from focusable management', () => {
+        component = renderComponent({ focusPath: 'focusPath' });
 
-      component.unmount();
-      // TODO: back toHaveBeenCalledWith, testing DOM Element
-      expect(SpatialNavigation.removeFocusable).toHaveBeenCalled();
+        component.unmount();
+        expect(SpatialNavigation.removeFocusable)
+          .toHaveBeenCalledWith(element);
+      });
+
+      it('stops listening to enter press event', () => {
+        component = renderComponent({ focusPath: 'focusPath', onEnterPress });
+        component.unmount();
+
+        const event = new CustomEvent('sn:enter-down');
+        element.dispatchEvent(event);
+        expect(onEnterPress).not.toHaveBeenCalled();
+      });
     });
   });
 });
