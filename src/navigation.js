@@ -557,7 +557,7 @@ var GlobalConfig = {
   }
 
   function getSectionLastFocusedElement(sectionId) {
-    var lastFocusedElement = _sections[sectionId].lastFocusedElement;
+    var lastFocusedElement = _sections[sectionId] && _sections[sectionId].lastFocusedElement;
     if (!isNavigable(lastFocusedElement, sectionId, true)) {
       return null;
     }
