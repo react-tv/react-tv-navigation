@@ -3,6 +3,8 @@ import Navigation from './navigation';
 class SpatialNavigation {
   constructor() {
     this.handleFocused = this.handleFocused.bind(this);
+    this.navigableFilter = this.navigableFilter.bind(this);
+    this.handleNavigationFailed = this.handleNavigationFailed.bind(this);
 
     this.destroy();
     this.bindFocusEvent();
@@ -30,11 +32,13 @@ class SpatialNavigation {
     if (!this.listening) {
       this.listening = true;
       document.addEventListener('sn:focused', this.handleFocused);
+      document.addEventListener('sn:navigatefailed', this.handleNavigationFailed);
     }
   }
 
   unbindFocusEvent() {
     document.removeEventListener('sn:focused', this.handleFocused);
+    document.removeEventListener('sn:navigatefailed', this.handleNavigationFailed);
     this.listening = false;
   }
 
@@ -43,6 +47,24 @@ class SpatialNavigation {
       this.setState(ev.detail.sectionId);
       Navigation.focus(ev.detail.sectionId);
     }
+  }
+
+  handleNavigationFailed({ detail: { direction } }) {
+    if (!this.getCurrentFocusedPath()) {
+      return;
+    }
+
+    const currentFocusedPaths = this.getCurrentFocusedPath().split('/');
+
+    let currentFocusedGroup = '';
+    if (currentFocusedPaths.length > 2) {
+    currentFocusedGroup = currentFocusedPaths
+      .slice(0, currentFocusedPaths.length - 2)
+      .join('/');
+    }
+
+    this.setCurrentFocusedPath(currentFocusedGroup);
+    Navigation.move(direction)
   }
 
   getCurrentFocusedPath() {
@@ -54,14 +76,39 @@ class SpatialNavigation {
     Navigation.focus(focusPath);
   }
 
-  addFocusable(focusDOMElement, { focusPath, onEnterPressHandler }) {
-    if (!focusDOMElement || Navigation.getSectionId(focusDOMElement)) {
+  navigableFilter(element, focusPath) {
+    if (!this.getCurrentFocusedPath()) {
+      return true;
+    }
+
+    const currentFocusedPaths = this.getCurrentFocusedPath().split('/');
+
+    let currentFocusedGroup = '';
+    if (currentFocusedPaths.length > 1) {
+      currentFocusedGroup = currentFocusedPaths
+        .slice(0, currentFocusedPaths.length - 1)
+        .join('/');
+    }
+
+    return focusPath.startsWith(currentFocusedGroup);
+  }
+
+  isFocusable(focusDOMElement) {
+    return !!(focusDOMElement && Navigation.getSectionId(focusDOMElement));
+  }
+
+  addFocusable(focusDOMElement, { focusPath, onEnterPressHandler, disabled }) {
+    if (!focusDOMElement) {
       return;
     }
 
     this.removeFocusable(focusDOMElement, { onEnterPressHandler });
 
-    const params = [{ selector: focusDOMElement }];
+    if (disabled) {
+      return;
+    }
+
+    const params = [{ selector: focusDOMElement, navigableFilter: this.navigableFilter }];
     if (focusPath) {
       params.unshift(focusPath);
     }
@@ -72,11 +119,11 @@ class SpatialNavigation {
   }
 
   removeFocusable(focusDOMElement, { onEnterPressHandler }) {
-    const sectionId = Navigation.getSectionId(focusDOMElement);
-    if (!sectionId) {
+    if (!this.isFocusable(focusDOMElement)) {
       return;
     }
 
+    const sectionId = Navigation.getSectionId(focusDOMElement);
     Navigation.remove(sectionId);
     focusDOMElement.removeEventListener('sn:enter-down', onEnterPressHandler);
   }

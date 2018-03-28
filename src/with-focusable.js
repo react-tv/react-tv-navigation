@@ -7,12 +7,17 @@ import lifecycle from 'recompose/lifecycle';
 import getContext from 'recompose/getContext';
 import setPropTypes from 'recompose/setPropTypes';
 import withHandlers from 'recompose/withHandlers';
+import defaultProps from 'recompose/defaultProps';
 
 import SpatialNavigation from './spatial-navigation';
 
 const withFocusable = compose(
+  defaultProps({
+    disabled: false,
+  }),
   setPropTypes({
     focusPath: PropTypes.string.isRequired,
+    disabled: PropTypes.bool,
   }),
   getContext({
     setFocus: PropTypes.func,
@@ -34,10 +39,10 @@ const withFocusable = compose(
   }),
   lifecycle({
     addFocusable() {
-      const { focusPath, onEnterPressHandler } = this.props;
+      const { focusPath, onEnterPressHandler, disabled } = this.props;
       SpatialNavigation.addFocusable(
         ReactTV.findDOMNode(this),
-        { focusPath, onEnterPressHandler }
+        { focusPath, onEnterPressHandler, disabled }
       );
     },
     componentDidMount() {
