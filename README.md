@@ -1,6 +1,4 @@
-# React-TV Navigation
-
-#[React-TV-Navigation was migrated to https://github.com/raphamorim/react-tv](https://github.com/raphamorim/react-tv)  
+# [React-TV-Navigation was migrated to raphamorim/react-tv](https://github.com/raphamorim/react-tv)  
 
 > Navigation for TVs using React-TV
 
