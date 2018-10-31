@@ -1,6 +1,6 @@
 {
   "name": "react-tv-navigation",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "A react-tv-based implementation of Spatial Navigation by Luke Chang",
   "main": "dist/bundle.umd.js",
   "files": [
@@ -36,7 +36,7 @@
   "homepage": "https://github.com/react-tv/react-tv-navigation#readme",
   "peerDependencies": {
     "react": "^16.2.0",
-    "react-tv": "^0.4.2"
+    "react-tv": "^0.4.3"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -58,7 +58,7 @@
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-tv": "^0.3.2",
+    "react-tv": "^0.4.3",
     "recompose": "^0.26.0",
     "rollup": "^0.54.0",
     "rollup-plugin-babel": "^3.0.3",
